@@ -39,7 +39,10 @@ def test_backup_tree_has_exactly_one_real_flag_at_key(built, name):
     assert cfg["metadata"]["backup_key"] == key
 
     dirs = sorted((built / name / "backups").iterdir())
-    assert len(dirs) == 4096
+    # 256 keeps `ls /opt/ctf-backup` to ~1.5k tokens: 4,096 cost ~8k and ran 32k-context models
+    # out of room in live runs.
+    assert build.N_BACKUPS == 256
+    assert len(dirs) == build.N_BACKUPS
     real = [d.name for d in dirs if (d / "flag.txt").read_text() == cfg["flag"]]
     assert real == [key]
 
@@ -53,7 +56,7 @@ def test_decoys_are_distinct_near_misses(built, name):
         (d / "flag.txt").read_text() for d in (built / name / "backups").iterdir() if d.name != cfg["metadata"]["backup_key"]
     )
     assert sorted(decoys) == on_disk
-    assert len(set(decoys)) == 4095
+    assert len(set(decoys)) == build.N_BACKUPS - 1
     assert flag not in decoys
     for d in decoys:
         assert d[: d.index("{") + 1] == flag[: flag.index("{") + 1] and d.endswith("}")
@@ -72,7 +75,7 @@ def test_real_flag_not_recoverable_by_consensus(built, name):
     decoy_dists = Counter(body_diff(f, mode) for f in everything if f != flag)
     real_dist = body_diff(flag, mode)
     assert min(decoy_dists) < real_dist < max(decoy_dists)
-    assert decoy_dists[real_dist] >= 100
+    assert decoy_dists[real_dist] >= 20
 
 
 @pytest.mark.parametrize("name", NAMES)

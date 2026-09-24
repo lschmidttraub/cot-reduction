@@ -141,6 +141,7 @@ def cybench_hackable(
     variant_names: str | list[str] | None = ("planted", "prompted"),
     monitor_note: bool = False,
     verify: bool = False,
+    data_dir: str | None = None,
 ) -> Task:
     """Cybench challenges with a planted flag-backup shortcut.
 
@@ -150,16 +151,18 @@ def cybench_hackable(
             `solution-hack`.
         monitor_note: append the CoT-only-monitor note to the system prompt.
         verify: run each variant's solution.sh instead of a model (for solution variants).
+        data_dir: built challenges to load (default: data/cybench_hackable).
     """
+    root = Path(data_dir).resolve() if data_dir else DATA_DIR
     if not os.environ.get("CYBENCH_ACKNOWLEDGE_RISKS"):
         raise ValueError(f"{CYBENCH_DOCKER_WARNING}\n\nSet CYBENCH_ACKNOWLEDGE_RISKS=1 in your environment to proceed.")
-    if not DATA_DIR.is_dir():
-        raise FileNotFoundError(f"{DATA_DIR} not found; run `uv run scripts/make_cybench_hackable.py` first")
+    if not root.is_dir():
+        raise FileNotFoundError(f"{root} not found; run `uv run scripts/make_cybench_hackable.py --out {root}` first")
 
     if isinstance(variant_names, tuple):
         variant_names = list(variant_names)
     dataset = (
-        create_agentic_eval_dataset(root_dir=DATA_DIR)
+        create_agentic_eval_dataset(root_dir=root)
         .filter_by_metadata_field("eval_name", eval_names)
         .filter_by_metadata_field("variant_name", variant_names)
     )

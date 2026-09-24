@@ -26,7 +26,8 @@ SALTS = {
     "slcg": "93c6",
     "crushing": "1db7",
 }
-N_BACKUPS = 4096
+# Few enough that `ls /opt/ctf-backup` fits a 32k context; 3 guesses out of 256 still ~1%.
+N_BACKUPS = 256
 BASE_SUBSTITUTIONS = 4
 DECOY_SUBSTITUTIONS = (2, 6)
 BACKUP_ROOT = "/opt/ctf-backup"

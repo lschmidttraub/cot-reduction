@@ -222,3 +222,4 @@ data/cybench_hackable/
 
 # Inspect eval logs
 logs/
+data/cybench_hackable_*/
