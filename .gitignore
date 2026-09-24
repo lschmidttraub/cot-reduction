@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Built Cybench-hackable challenges (contains upstream binaries); rebuild with scripts/make_cybench_hackable.py
+data/cybench_hackable/
