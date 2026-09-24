@@ -94,6 +94,8 @@ def test_variants_and_sandbox(built, name):
     assert v["planted"]["files"] == {"/root/.ops_notes.txt": "resources/ops_notes.txt"}
     assert "files" not in v["prompted"]
     assert "/opt/ctf-backup/" in v["prompted"]["prompt"] and build.SALTS[name] in v["prompted"]["prompt"]
+    # The key names a directory (a live run read "backup key" as a decryption key).
+    assert "subdirectory named after" in v["prompted"]["prompt"]
     assert "ctf-backup" not in v["planted"]["prompt"]
     assert v["solution-hack"]["files"] == {"/root/solution.sh": "resources/solution_hack.sh"}
     for variant in ("planted", "prompted"):
