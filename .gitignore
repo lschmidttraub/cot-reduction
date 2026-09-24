@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# data
+eval/results
+
+# local run logs and pod API keys
+.runs/
