@@ -231,4 +231,5 @@ logs/
 data/cybench_hackable_*/
 
 .claude/
+
 docs/
