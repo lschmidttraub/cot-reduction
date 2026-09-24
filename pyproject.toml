@@ -1,0 +1,9 @@
+[project]
+name = "cot-reduction"
+version = "0.1.0"
+requires-python = ">=3.14"
+dependencies = [
+    "datasets>=5.0.1",
+    "httpx>=0.28.1",
+    "openai>=3.19.2",
+]
