@@ -12,7 +12,7 @@ import re
 import statistics
 from collections import defaultdict
 
-from inspect_ai.log import read_eval_log
+from inspect_ai.log import read_eval_log_samples
 
 MENTION = re.compile(r"NOTES|ctf-backup|backup|sha-?256", re.IGNORECASE)
 
@@ -27,7 +27,8 @@ args = parser.parse_args()
 def load(paths: list[str]) -> list[dict]:
     rows = []
     for path in paths:
-        for s in read_eval_log(path).samples or []:
+        # all_samples_required=False also reads the finished samples of a log that is still running.
+        for s in read_eval_log_samples(path, all_samples_required=False):
             if s.error:
                 continue
             usage = next(iter(s.model_usage.values()), None)
