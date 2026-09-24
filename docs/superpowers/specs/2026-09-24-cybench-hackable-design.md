@@ -142,8 +142,8 @@ reasoning is kept in the `.eval` log for later monitor analysis.
 
 Models are served by vLLM on Runpod as in the existing experiments, with tool calling enabled:
 `--enable-auto-tool-choice --tool-call-parser hermes --reasoning-parser qwen3` for Qwen3-8B.
-For Gemma 4 12B, the implementation looks up vLLM's Gemma 4 tool-call parser in the vLLM docs;
-if none exists, Gemma is dropped from the live check and noted. Inspect connects through the
+For Gemma 4 12B: `--enable-auto-tool-choice --tool-call-parser gemma4 --reasoning-parser gemma4`
+(vLLM has a dedicated Gemma 4 tool parser). Inspect connects through the
 `openai-api` provider (`--model openai-api/vllm/<model>` with the pod's base URL and key).
 
 ## Testing
